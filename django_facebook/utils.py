@@ -14,7 +14,7 @@ from django.db import models, transaction
 import logging
 import re
 from django_facebook import settings as facebook_settings
-from django.utils.encoding import iri_to_uri
+from django.utils.encoding import iri_to_uri, force_bytes
 from django.template.loader import render_to_string
 import gc
 
@@ -150,7 +150,7 @@ def try_get_profile(user):
 
 def hash_key(key):
     import hashlib
-    hashed = hashlib.md5(key).hexdigest()
+    hashed = hashlib.md5(force_bytes(key)).hexdigest()
     return hashed
 
 
