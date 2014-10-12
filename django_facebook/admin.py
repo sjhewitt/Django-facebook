@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.conf import settings
+from django.contrib.auth.admin import UserAdmin
 from django.core.urlresolvers import reverse
 from django_facebook import admin_actions
 from django_facebook import models
@@ -75,6 +76,11 @@ class OpenGraphShareAdmin(admin.ModelAdmin):
 
 if getattr(settings, 'AUTH_PROFILE_MODULE', None) == 'django_facebook.FacebookProfile':
     admin.site.register(models.FacebookProfile, FacebookProfileAdmin)
+
+if getattr(settings, 'AUTH_USER_MODEL', None) == 'django_facebook.FacebookCustomUser':
+    class AccountAdmin(UserAdmin):
+        list_display = ('username', 'email',)
+    admin.site.register(models.FacebookCustomUser, AccountAdmin)
 
 admin.site.register(models.FacebookUser, FacebookUserAdmin)
 admin.site.register(models.FacebookLike, FacebookLikeAdmin)
